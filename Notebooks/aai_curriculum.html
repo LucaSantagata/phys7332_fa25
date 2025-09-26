@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "AAI 1990", "label": "AAI 1990", "shape": "dot", "size": 30, "title": "Elective"}, {"color": "#97c2fc", "id": "AAI 2990", "label": "AAI 2990", "shape": "dot", "size": 30, "title": "Elective"}, {"color": "#97c2fc", "id": "AAI 3990", "label": "AAI 3990", "shape": "dot", "size": 30, "title": "Elective"}, {"color": "#97c2fc", "id": "AAI 4990", "label": "AAI 4990", "shape": "dot", "size": 30, "title": "Elective"}, {"color": "#97c2fc", "id": "AAI 5015", "label": "AAI 5015", "shape": "dot", "size": 30, "title": "Mathematical Concepts"}, {"color": "#97c2fc", "id": "AAI 5025", "label": "AAI 5025", "shape": "dot", "size": 30, "title": "Python"}, {"color": "#97c2fc", "id": "AAI 5035", "label": "AAI 5035", "shape": "dot", "size": 30, "title": "Research Methods and Scientific Writing"}, {"color": "#97c2fc", "id": "AAI 6600", "label": "AAI 6600", "shape": "dot", "size": 30, "title": "Applied Artificial Intelligence"}, {"color": "#97c2fc", "id": "AAI 6610", "label": "AAI 6610", "shape": "dot", "size": 30, "title": "Applied Machine Learning"}, {"color": "#97c2fc", "id": "AAI 6620", "label": "AAI 6620", "shape": "dot", "size": 30, "title": "Applied Natural Language Processing"}, {"color": "#97c2fc", "id": "AAI 6630", "label": "AAI 6630", "shape": "dot", "size": 30, "title": "Applied Computer Vision"}, {"color": "#97c2fc", "id": "AAI 6640", "label": "AAI 6640", "shape": "dot", "size": 30, "title": "Applied Deep Learning"}, {"color": "#97c2fc", "id": "AAI 6650", "label": "AAI 6650", "shape": "dot", "size": 30, "title": "Recommender System"}, {"color": "#97c2fc", "id": "AAI 6655", "label": "AAI 6655", "shape": "dot", "size": 30, "title": "Prompt Engineering"}, {"color": "#97c2fc", "id": "AAI 6660", "label": "AAI 6660", "shape": "dot", "size": 30, "title": "Chatbot Architecture"}, {"color": "#97c2fc", "id": "AAI 6665", "label": "AAI 6665", "shape": "dot", "size": 30, "title": "Generative Artificial Intelligence"}, {"color": "#97c2fc", "id": "AAI 6670", "label": "AAI 6670", "shape": "dot", "size": 30, "title": "Chatbot Application"}, {"color": "#97c2fc", "id": "AAI 6680", "label": "AAI 6680", "shape": "dot", "size": 30, "title": "AI for Cybersecurity"}, {"color": "#97c2fc", "id": "AAI 6690", "label": "AAI 6690", "shape": "dot", "size": 30, "title": "Machine Learning for Cyberdetection"}, {"color": "#97c2fc", "id": "AAI 6710", "label": "AAI 6710", "shape": "dot", "size": 30, "title": "Graph Signal Processing"}, {"color": "#97c2fc", "id": "AAI 6720", "label": "AAI 6720", "shape": "dot", "size": 30, "title": "Graph Neural Networks"}, {"color": "#97c2fc", "id": "AAI 6730", "label": "AAI 6730", "shape": "dot", "size": 30, "title": "Deep Learning for 3D Point Cloud Analysis"}, {"color": "#97c2fc", "id": "AAI 6740", "label": "AAI 6740", "shape": "dot", "size": 30, "title": "Applied Reinforcement Learning"}, {"color": "#97c2fc", "id": "AAI 6790", "label": "AAI 6790", "shape": "dot", "size": 30, "title": "Applied Quantum AI"}, {"color": "#97c2fc", "id": "AAI 6850", "label": "AAI 6850", "shape": "dot", "size": 30, "title": "Applied Blockchain AI"}, {"color": "#97c2fc", "id": "AAI 6900", "label": "AAI 6900", "shape": "dot", "size": 30, "title": "AI for Autonomous Systems"}, {"color": "#97c2fc", "id": "AAI 6962", "label": "AAI 6962", "shape": "dot", "size": 30, "title": "Elective"}, {"color": "#97c2fc", "id": "AAI 6980", "label": "AAI 6980", "shape": "dot", "size": 30, "title": "Integrated Experiential Capstone"}, {"color": "#97c2fc", "id": "AAI 6983", "label": "AAI 6983", "shape": "dot", "size": 30, "title": "Special Research Topics in AI"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "AAI 6600", "to": "AAI 6655"}, {"arrows": "to", "from": "AAI 6600", "to": "AAI 6660"}, {"arrows": "to", "from": "AAI 6600", "to": "AAI 6665"}, {"arrows": "to", "from": "AAI 6600", "to": "AAI 6670"}, {"arrows": "to", "from": "AAI 6600", "to": "AAI 6710"}, {"arrows": "to", "from": "AAI 6600", "to": "AAI 6980"}, {"arrows": "to", "from": "AAI 6610", "to": "AAI 6620"}, {"arrows": "to", "from": "AAI 6610", "to": "AAI 6630"}, {"arrows": "to", "from": "AAI 6610", "to": "AAI 6660"}, {"arrows": "to", "from": "AAI 6610", "to": "AAI 6665"}, {"arrows": "to", "from": "AAI 6610", "to": "AAI 6710"}, {"arrows": "to", "from": "AAI 6610", "to": "AAI 6980"}, {"arrows": "to", "from": "AAI 6620", "to": "AAI 6665"}, {"arrows": "to", "from": "AAI 6620", "to": "AAI 6680"}, {"arrows": "to", "from": "AAI 6620", "to": "AAI 6980"}, {"arrows": "to", "from": "AAI 6630", "to": "AAI 6665"}, {"arrows": "to", "from": "AAI 6630", "to": "AAI 6680"}, {"arrows": "to", "from": "AAI 6630", "to": "AAI 6980"}, {"arrows": "to", "from": "AAI 6640", "to": "AAI 6665"}, {"arrows": "to", "from": "AAI 6680", "to": "AAI 6690"}, {"arrows": "to", "from": "AAI 6710", "to": "AAI 6720"}, {"arrows": "to", "from": "AAI 6710", "to": "AAI 6730"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.09,
+            "nodeDistance": 100,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
